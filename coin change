@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <stdlib.h>
+int coinchange(int coins[],int n,int value)
+{
+    int min(int a,int b)
+    {
+        if(a<b)
+        {
+            return a;
+        }
+        else
+        {
+            return b;
+        }
+    }
+    int T[n][value+1],i,j;
+    for(i=0; i<n; i++)
+    {
+        for(j=0; j<=value; j++)
+        {
+            if(j==0)
+            {
+                T[i][j]=0;
+            }
+            else
+            {
+                T[i][j]=9999;
+            }
+        }
+        for(i=0; i<n; i++)
+        {
+            for(j=0; j<=value; j++)
+            {
+                if(coins[i]>j)
+                {
+                    T[i][j]= T[i-1][j];
+                }
+                else if(coins[i]<=j)
+                {
+                    T[i][j]= min(T[i-1][j],1+T[i][j-coins[i]]);
+                }
+                printf("%d",T[i][j]);
+            }
+            printf("\n");
+        }
+        return T[n-1][value];
+    }
+}
+    int main()
+    {
+        int n,coins[100],i,value;
+        scanf("%d",&n);
+        for(i=0; i<n; i++)
+        {
+            scanf("%d",&coins[i]);
+        }
+        scanf("%d",&value);
+        int result=coinchange(coins,n,value);
+        printf("min coin:%d\n",result);
+        return 0;
+    }
+
+output:
+5
+2
+3
+4
+6
+7
+13
+001122333040-10
+001112223030-10
+001111222030-10
+001111112020-10
+001111111020-10
+min coin:0
